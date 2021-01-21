@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using DeveloperRPG.GameStates;
 using SFML.Graphics;
 using SFML.System;
@@ -12,7 +10,6 @@ namespace DeveloperRPG
     {
         public readonly Queue<IGameState> States = new();
         public readonly RenderWindow Window;
-
         public uint Width = 1280;
         public uint Height = 720;
 
@@ -32,6 +29,8 @@ namespace DeveloperRPG
             States.Enqueue(new GameStateMain(this));
         }
 
+        private IGameState CurrentState => States.TryPeek(out var state) ? state : null;
+
         public void Gameloop()
         {
             var clock = new Clock();
@@ -49,7 +48,5 @@ namespace DeveloperRPG
                 Window.Display();
             }
         }
-
-        private IGameState CurrentState => States.TryPeek(out var state) ? state : null;
     }
 }
