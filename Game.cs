@@ -10,7 +10,7 @@ namespace DeveloperRPG
 {
     public class Game
     {
-        private readonly Queue<IGameState> _states = new();
+        public readonly Queue<IGameState> States = new();
         public readonly RenderWindow Window;
 
         public uint Width = 1280;
@@ -29,7 +29,7 @@ namespace DeveloperRPG
             };
             Window.SetFramerateLimit(60);
 
-            _states.Enqueue(new GameStateMain(this));
+            States.Enqueue(new GameStateMain(this));
         }
 
         public void Gameloop()
@@ -50,6 +50,6 @@ namespace DeveloperRPG
             }
         }
 
-        private IGameState CurrentState => _states.TryPeek(out var state) ? state : null;
+        private IGameState CurrentState => States.TryPeek(out var state) ? state : null;
     }
 }
