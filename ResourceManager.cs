@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using SFML;
 using SFML.Graphics;
 
 namespace DeveloperRPG
 {
-    public class ResourceManager
+    public static class ResourceManager
     {
-        private readonly Dictionary<string, Texture> _textures = new();
+        public const string CharacterPath = "Resources/Character.png";
+        private static readonly Dictionary<string, Texture> Textures = new();
 
-        public Texture LoadTexture(string filePath, Action runWhenFail)
+        public static Texture LoadTexture(string filePath)
         {
-            if (!_textures.ContainsKey(filePath))
+            if (!Textures.ContainsKey(filePath))
                 try
                 {
-                    _textures[filePath] = new Texture(filePath);
+                    Textures[filePath] = new Texture(filePath);
                 }
                 catch (LoadingFailedException e)
                 {
                     Console.WriteLine(e.Message);
-                    new Task(runWhenFail).Start();
+                    Environment.Exit(-1);
                     return null;
                 }
 
-            return _textures[filePath];
+            return Textures[filePath];
         }
     }
 }

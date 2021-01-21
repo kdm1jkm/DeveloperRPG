@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using System;
+using SFML.Graphics;
 using SFML.System;
 
 namespace DeveloperRPG
@@ -12,11 +13,13 @@ namespace DeveloperRPG
         private readonly Sprite _sprite;
         private int _currentFrame;
         private Time _elapsed = Time.Zero;
-        public Vector2f Velocity;
+        public float Direction = 0;
+        public float Velocity = 0;
 
-        public Player(Texture texture)
+        public Player()
         {
-            _sprite = new Sprite(texture) {Scale = new Vector2f(5.0f, 5.0f), TextureRect = new IntRect(0, 0, 8, 8)};
+            _sprite = new Sprite(ResourceManager.LoadTexture(ResourceManager.CharacterPath))
+                {Scale = new Vector2f(5.0f, 5.0f), TextureRect = new IntRect(0, 0, 8, 8)};
         }
 
         public Vector2f Coordinate
@@ -32,9 +35,8 @@ namespace DeveloperRPG
 
         public void Update(Time elapsed)
         {
-            if (Velocity.X != 0 && Velocity.Y != 0) Velocity /= 1.4142135623731f;
-
-            Coordinate += Velocity * elapsed.AsSeconds();
+            Coordinate += new Vector2f((float) Math.Cos(Direction), (float) Math.Sin(Direction)) * Velocity *
+                          elapsed.AsSeconds();
             _elapsed += elapsed;
             if (_elapsed > AnimationInterval)
             {

@@ -10,8 +10,8 @@ namespace DeveloperRPG
     {
         public readonly Queue<IGameState> States = new();
         public readonly RenderWindow Window;
-        public uint Width = 1280;
         public uint Height = 720;
+        public uint Width = 1280;
 
         public Game()
         {

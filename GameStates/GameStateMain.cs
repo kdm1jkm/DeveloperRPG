@@ -1,4 +1,5 @@
-﻿using SFML.System;
+﻿using System;
+using SFML.System;
 using static SFML.Window.Keyboard;
 
 namespace DeveloperRPG.GameStates
@@ -10,9 +11,8 @@ namespace DeveloperRPG.GameStates
 
         public GameStateMain(Game game)
         {
-            var manager = new ResourceManager();
             _game = game;
-            _player = new Player(manager.LoadTexture("Resources/Character.png", () => game.Window.Close()));
+            _player = new Player();
         }
 
         public void HandleInput()
@@ -32,18 +32,25 @@ namespace DeveloperRPG.GameStates
 
         private void HandlePlayer()
         {
-            _player.Velocity.X = 0;
-            _player.Velocity.Y = 0;
-
+            int x = 0, y = 0;
             if (InputManager.IsKeyHeld(Key.A))
-                _player.Velocity.X = -Player.Speed;
-            else if (InputManager.IsKeyHeld(Key.D))
-                _player.Velocity.X = Player.Speed;
-
+                x -= 1;
+            if (InputManager.IsKeyHeld(Key.D))
+                x += 1;
             if (InputManager.IsKeyHeld(Key.W))
-                _player.Velocity.Y = -Player.Speed;
-            else if (InputManager.IsKeyHeld(Key.S))
-                _player.Velocity.Y = Player.Speed;
+                y -= 1;
+            if (InputManager.IsKeyHeld(Key.S))
+                y += 1;
+
+            if (x == 0 && y == 0)
+            {
+                _player.Velocity = 0;
+            }
+            else
+            {
+                _player.Velocity = Player.Speed;
+                _player.Direction = (float) Math.Atan2(y, x);
+            }
         }
     }
 }
