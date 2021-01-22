@@ -2,22 +2,20 @@
 using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
-using static DeveloperRPG.Utility;
 using static SFML.Window.Keyboard;
 
 namespace DeveloperRPG.GameStates
 {
     public class GameStateMain : IGameState
     {
-        private const int FollowRate = 10;
+        private const float FollowRate = 50 / Player.Speed;
         private const float IdleZoom = 3.0f;
-        private const float FarZoom = 2.5f;
+        private const float FarZoom = 1.5f;
 
         private readonly Game _game;
         private readonly List<Ground> _grounds;
         private readonly Player _player;
         private readonly View _view;
-        private Vector2f _viewSpeed;
 
         public GameStateMain(Game game)
         {
@@ -25,8 +23,6 @@ namespace DeveloperRPG.GameStates
             _player = new Player();
             _view = new View(new Vector2f(0, 0), new Vector2f(1280, 720));
             _grounds = new List<Ground>();
-            _viewSpeed = new Vector2f(0, 0);
-
             for (var i = 0; i < 100; i++)
             for (var j = 0; j < 100; j++)
                 _grounds.Add(new Ground(new Vector2f(i, j)));
@@ -46,7 +42,7 @@ namespace DeveloperRPG.GameStates
         public void Update(Time elapsed)
         {
             UpdateObjects(elapsed);
-            UpdateView();
+            UpdateView(elapsed);
         }
 
         public void Render()
@@ -55,13 +51,12 @@ namespace DeveloperRPG.GameStates
             _game.Window.Draw(_player);
         }
 
-        private void UpdateView()
+        private void UpdateView(Time elapsed)
         {
-            var distance = Distance(_view.Center - _player.Coordinate);
-            var maxDistance = Player.Speed * FollowRate / 60;
-            Zoom = (float) (IdleZoom + Math.Pow(distance / maxDistance, 2) * (FarZoom - IdleZoom));
-            _view.Move(-(_view.Center - _player.Coordinate) / FollowRate);
-            // Console.Out.WriteLine($" length:{distance}, Zoom:{Zoom}");
+            var distance = Utility.Distance(_view.Center - _player.Coordinate);
+            Zoom = (float) (IdleZoom - (1 - distance / Player.Speed / FollowRate) * (FarZoom - IdleZoom));
+            _view.Move(-(_view.Center - _player.Coordinate) / FollowRate * elapsed.AsSeconds());
+            Console.Out.WriteLine($"distance:{distance}");
             _game.Window.SetView(_view);
         }
 

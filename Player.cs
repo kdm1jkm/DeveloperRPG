@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SFML.Graphics;
 using SFML.System;
 
@@ -7,7 +7,7 @@ namespace DeveloperRPG
     public class Player : IEntity
     {
         private const int FrameCount = 2;
-        public const int Speed = 50;
+        public const float Speed = 50;
         private static readonly Time AnimationInterval = Time.FromSeconds(0.5f);
 
         private readonly Sprite _sprite;
