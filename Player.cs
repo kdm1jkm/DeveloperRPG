@@ -7,7 +7,7 @@ namespace DeveloperRPG
     public class Player : IEntity
     {
         private const int FrameCount = 2;
-        public const int Speed = 200;
+        public const int Speed = 50;
         private static readonly Time AnimationInterval = Time.FromSeconds(0.5f);
 
         private readonly Sprite _sprite;
@@ -19,7 +19,7 @@ namespace DeveloperRPG
         public Player()
         {
             _sprite = new Sprite(ResourceManager.LoadTexture(ResourceManager.CharacterPath))
-                {Scale = new Vector2f(5.0f, 5.0f), TextureRect = new IntRect(0, 0, 8, 8)};
+                {TextureRect = new IntRect(0, 0, 8, 8)};
         }
 
         public Vector2f Coordinate
