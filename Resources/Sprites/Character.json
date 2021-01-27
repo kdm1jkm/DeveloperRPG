@@ -1,0 +1,28 @@
+﻿{
+  "imageFile": "Character.png",
+  "size": [8, 8],
+  "animations": [
+    {
+      "name": "idle",
+      "frames": [
+        {
+          "position": [0, 0],
+          "duration": 500
+        },
+        {
+          "position": [1, 0],
+          "duration": 500
+        }
+      ]
+    },
+    {
+      "name": "dash-right",
+      "frames": [
+        {
+          "position": [2, 0],
+          "duration": 300
+        }
+      ]
+    }
+  ]
+}

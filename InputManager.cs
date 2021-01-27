@@ -17,8 +17,11 @@ namespace DeveloperRPG
 
         public static void PressKey(Key key)
         {
-            HeldKeys.Add(key);
-            PressedKeys.Add(key);
+            if (!IsKeyHeld(key))
+            {
+                HeldKeys.Add(key);
+                PressedKeys.Add(key);
+            }
         }
 
         public static void ReleaseKey(Key key)

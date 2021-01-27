@@ -7,8 +7,6 @@ namespace DeveloperRPG
 {
     public static class ResourceManager
     {
-        public const string CharacterPath = "Resources/Character.png";
-        public const string GroundPath = "Resources/Ground.png";
         private static readonly Dictionary<string, Texture> Textures = new();
 
         public static Texture LoadTexture(string filePath)

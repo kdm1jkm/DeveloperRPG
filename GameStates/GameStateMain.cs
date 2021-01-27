@@ -13,7 +13,7 @@ namespace DeveloperRPG.GameStates
         private const float FarZoom = 1.5f;
 
         private readonly Game _game;
-        private readonly List<Ground> _grounds;
+        // private readonly List<Entity> _grounds;
         private readonly Player _player;
         private readonly View _view;
 
@@ -22,10 +22,13 @@ namespace DeveloperRPG.GameStates
             _game = game;
             _player = new Player();
             _view = new View(new Vector2f(0, 0), new Vector2f(1280, 720));
-            _grounds = new List<Ground>();
-            for (var i = 0; i < 100; i++)
-            for (var j = 0; j < 100; j++)
-                _grounds.Add(new Ground(new Vector2f(i, j)));
+            // _grounds = new List<Entity>();
+            // for (var i = 0; i < 100; i++)
+            // for (var j = 0; j < 100; j++)
+            // {
+                // _grounds.Add(new Entity("Resources/Ground.json"));
+                // _grounds[^1].Coordinate = new Vector2f(i, j) * 16;
+            // }
         }
 
         private float Zoom
@@ -47,7 +50,7 @@ namespace DeveloperRPG.GameStates
 
         public void Render()
         {
-            foreach (var ground in _grounds) _game.Window.Draw(ground);
+            // foreach (var ground in _grounds) _game.Window.Draw(ground);
             _game.Window.Draw(_player);
         }
 
@@ -56,14 +59,14 @@ namespace DeveloperRPG.GameStates
             var distance = Utility.Distance(_view.Center - _player.Coordinate);
             Zoom = (float) (IdleZoom - (1 - distance / Player.Speed / FollowRate) * (FarZoom - IdleZoom));
             _view.Move(-(_view.Center - _player.Coordinate) / FollowRate * elapsed.AsSeconds());
-            Console.Out.WriteLine($"distance:{distance}");
+            // Console.Out.WriteLine($"distance:{distance}");
             _game.Window.SetView(_view);
         }
 
         private void UpdateObjects(Time elapsed)
         {
             _player.Update(elapsed);
-            foreach (var ground in _grounds) ground.Update(elapsed);
+            // foreach (var ground in _grounds) ground.Update(elapsed);
         }
 
         private void HandlePlayer()
@@ -78,13 +81,15 @@ namespace DeveloperRPG.GameStates
             if (InputManager.IsKeyHeld(Key.S))
                 y += 1;
 
+            if (InputManager.IsKeyPressed(Key.Space)) _player.Velocity = Player.Speed * 5;
+
             if (x == 0 && y == 0)
             {
-                _player.Velocity = 0;
+                _player.State = Player.PlayerState.StateIdle;
             }
             else
             {
-                _player.Velocity = Player.Speed;
+                _player.State = Player.PlayerState.StateMoving;
                 _player.Direction = (float) Math.Atan2(y, x);
             }
         }

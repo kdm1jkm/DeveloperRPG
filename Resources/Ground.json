@@ -1,0 +1,15 @@
+﻿{
+  "imageFile": "Ground.png",
+  "size": [16, 16],
+  "animations": [
+    {
+      "name": "idle",
+      "frames": [
+        {
+          "position": [0, 0],
+          "duration": 500
+        }
+      ]
+    }
+  ]
+}
